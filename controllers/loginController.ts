@@ -21,17 +21,18 @@ type JwtPayload = {
 
 router.post("/login", async (req: Request<{}, {}, LoginReqBody>, res: Response) => {
 
-  const validateReqBody = loginSchema.safeParse(req.body);
-  if (!validateReqBody.success) {
-    const validateError = validateReqBody.error.issues;
-    res.status(422).json({ error: `Validation type failed ${validateError}` });
-  }
-
   const queryCheckUser = `
     SELECT * FROM users WHERE username = $1
     `;
 
   try {
+
+    const validateReqBody = loginSchema.safeParse(req.body);
+    if (!validateReqBody.success) {
+      const validateError = validateReqBody.error.issues.map(item => item.message);
+      res.status(422).json({ error: `Validation type failed ${validateError}` });
+      return;
+    }
 
     const jwtSecret = process.env.JWT_SECRET;
     if (!jwtSecret) {
@@ -45,7 +46,8 @@ router.post("/login", async (req: Request<{}, {}, LoginReqBody>, res: Response) 
 
     const checkUser = await pool.query(queryCheckUser, [req.body.username]);
     if (checkUser.rows.length < 1) {
-      res.status(401).json({ error: "Invalid username or password." })
+      res.status(401).json({ error: "Invalid username or password." });
+      return;
     };
     if (checkUser.rows.length > 1) {
       throw new Error("Duplicated users.");
@@ -59,6 +61,7 @@ router.post("/login", async (req: Request<{}, {}, LoginReqBody>, res: Response) 
     const matchPassword = await argon2.verify(checkPassword, req.body.password, { secret: Buffer.from(secret) });
     if (!matchPassword) {
       res.status(401).json({ error: "Invalid username or password." })
+      return;
     }
 
     const token = jwt.sign(
@@ -73,12 +76,15 @@ router.post("/login", async (req: Request<{}, {}, LoginReqBody>, res: Response) 
     res.status(201).json({ token });
 
   } catch (error: unknown) {
+
     if (error instanceof Error) {
       res.status(500).json({ error: error.message });
     } else {
       res.status(500).json({ error: "Internal server error" });
     }
+
   }
+  
 })
 
 export default router

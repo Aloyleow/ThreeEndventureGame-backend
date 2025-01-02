@@ -1,5 +1,5 @@
 import express, { type Request, type Response } from "express";
-import { hash, argon2id } from "argon2";
+import * as argon2 from "argon2";
 import { z } from "zod";
 
 import pool from "../services/pool";
@@ -49,7 +49,7 @@ router.post("/signup", async (req: Request<{}, {}, SignupReqBody>, res: Response
       return;
     }
 
-    const hashPass = await hash(req.body.password, { type: argon2id, secret: Buffer.from(secret) });
+    const hashPass = await argon2.hash(req.body.password, { type: argon2.argon2id, secret: Buffer.from(secret) });
 
     const input = [
       req.body.username,
