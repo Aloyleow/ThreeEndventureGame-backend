@@ -1,0 +1,19 @@
+meta {
+  name: userSignup
+  type: http
+  seq: 3
+}
+
+post {
+  url: http://localhost:8888/api/user/signup
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "username": "Aloy",
+    "email": "aloyleow91@gmail.com",
+    "password": "123"
+  }
+}

@@ -1,0 +1,23 @@
+meta {
+  name: characters
+  type: http
+  seq: 7
+}
+
+post {
+  url: http://localhost:8188/api/user/verified/character
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2Vyc2lkIjo5LCJ1c2VybmFtZSI6IkFsb3kiLCJpYXQiOjE3MzMwMjkwNzMsImV4cCI6MTczMzAzMjY3M30.2wrdB07nPUY6Tlyg7y7HFAePffBoLPmttIctHygkIQY
+}
+
+body:json {
+  {
+    "role": "Warrior",
+    "turns": 2,
+    "win": true
+  }
+}
