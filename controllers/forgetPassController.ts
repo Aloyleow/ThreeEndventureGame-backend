@@ -3,7 +3,7 @@ import * as argon2 from "argon2";
 import { z } from "zod";
 
 import pool from "../services/pool";
-import { randomSix, htmlEmailTemplateForgetPass } from "../services/newPassword"
+import { randomSix } from "../services/newPassword";
 
 const router = express.Router();
 
@@ -25,6 +25,8 @@ router.post("/forgetpassword", async (req: Request<{}, {}, ForgetPasswordReqBody
   email = $2
   `;
 
+  const tempPassword: string = randomSix();
+
   const validateReqBody = forgetpasswordSchema.safeParse(req.body);
   if (!validateReqBody.success) {
     const validateError = validateReqBody.error.issues;
@@ -36,17 +38,16 @@ router.post("/forgetpassword", async (req: Request<{}, {}, ForgetPasswordReqBody
     throw new Error("Dependencies missing.");
   }
 
-  const tempPassword: string = randomSix();
-  if (!tempPassword) {
-    res.status(400).json({ error: "Unable to generate new pass." })
-  };
-
+  console.log(secret)
   try {
+
     const checkEmail = await pool.query(checkEmailQuery, [req.body.email]);
     if (checkEmail.rows.length < 1) {
       res.status(401).json({ error: "Invalid email, email is not registered." })
     };
-
+    if (checkEmail.rows.length > 1) {
+      res.status(401).json({ error: "Email duplicates found" })
+    };
 
     const hashPass = await argon2.hash(tempPassword, { 
       type: argon2.argon2id, 
@@ -63,11 +64,14 @@ router.post("/forgetpassword", async (req: Request<{}, {}, ForgetPasswordReqBody
       res.status(500).json({ error: "unable to get info in db." });
     }
 
-    
-    const info = await transporter.sendMail(email)
+    const emailjsData = {
+      human_name: checkEmail.rows[0].username,
+      new_password: tempPassword,
+      human_email: req.body.email
+    }
+
+    res.status(201).json(emailjsData)
  
-    
-    
   } catch (error: unknown) {
     if (error instanceof Error) {
       res.status(500).json({ error: error.message });

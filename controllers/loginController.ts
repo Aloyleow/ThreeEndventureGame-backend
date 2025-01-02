@@ -21,20 +21,10 @@ type JwtPayload = {
 
 router.post("/login", async (req: Request<{}, {}, LoginReqBody>, res: Response) => {
 
-  const jwtSecret = process.env.JWT_SECRET;
-  if (!jwtSecret) {
-    throw new Error("Unable to create jwt.")
-  }
-
-  const secret = process.env.ARGON_SECRET
-  if (!secret) {
-    throw new Error("Dependencies missing.");
-  }
-
   const validateReqBody = loginSchema.safeParse(req.body);
   if (!validateReqBody.success) {
     const validateError = validateReqBody.error.issues;
-    res.status(422).json({ error:`Validation type failed ${validateError}` });
+    res.status(422).json({ error: `Validation type failed ${validateError}` });
   }
 
   const queryCheckUser = `
@@ -43,17 +33,27 @@ router.post("/login", async (req: Request<{}, {}, LoginReqBody>, res: Response) 
 
   try {
 
+    const jwtSecret = process.env.JWT_SECRET;
+    if (!jwtSecret) {
+      throw new Error("Jwt Secret missing.")
+    }
+
+    const secret = process.env.ARGON_SECRET
+    if (!secret) {
+      throw new Error("Argon Secret missing.");
+    }
+
     const checkUser = await pool.query(queryCheckUser, [req.body.username]);
     if (checkUser.rows.length < 1) {
       res.status(401).json({ error: "Invalid username or password." })
     };
     if (checkUser.rows.length > 1) {
-      res.status(401).json({ error: "Duplicated users." })
+      throw new Error("Duplicated users.");
     }
 
     const checkPassword = checkUser.rows[0].password;
     if (!checkPassword) {
-      res.status(500).json({ error: "unable to get info in db." });
+      throw new Error("unable to get info in db.");
     };
 
     const matchPassword = await argon2.verify(checkPassword, req.body.password, { secret: Buffer.from(secret) });
@@ -67,7 +67,7 @@ router.post("/login", async (req: Request<{}, {}, LoginReqBody>, res: Response) 
       { expiresIn: "1hr" }
     );
     if (!token) {
-      res.status(400).json({ error: "Unable to form login token." })
+      throw new Error("Unable to form login token.")
     }
 
     res.status(201).json({ token });

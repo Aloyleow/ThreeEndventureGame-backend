@@ -8,7 +8,7 @@ import verifyJsonToken from "./middlewares/verifyJsonToken";
 import signupRouter from "./controllers/signupController"
 import loginRouter from "./controllers/loginController"
 import forgetPassRouter from "./controllers/forgetPassController"
-import changePassRouter from "./controllers/changePassController"
+// import changePassRouter from "./controllers/changePassController"
 import charactersRouter from "./controllers/charactersController"
 import warriorRouter from "./controllers/gameScaffoldController"
 
@@ -22,6 +22,10 @@ app.use(cors());
 
 app.use(express.json());
 
+app.get("/test", (req, res) => {
+ res.status(201).json({test: "test"})
+})
+
 app.use("/api/user", 
   signupRouter, 
   loginRouter,
@@ -29,7 +33,7 @@ app.use("/api/user",
 );
 
 app.use("/api/user/verified",
-  changePassRouter,
+  // changePassRouter,
   charactersRouter
 );
 
