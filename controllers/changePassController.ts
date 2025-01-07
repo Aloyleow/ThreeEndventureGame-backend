@@ -2,8 +2,6 @@ import express, { type Request, type Response } from "express";
 import * as argon2 from "argon2";
 import { z } from "zod";
 
-import verifyJsonToken from "../middlewares/verifyJsonToken";
-
 import pool from "../services/pool";
 
 const router = express.Router();
@@ -15,7 +13,7 @@ const changepasswordSchema = z.object({
 
 type ChangePasswordReqBody = z.infer<typeof changepasswordSchema>;
 
-router.put("/changepassword", verifyJsonToken, async (req: Request<{}, {}, ChangePasswordReqBody>, res: Response) => {
+router.put("/changepassword", async (req: Request<{}, {}, ChangePasswordReqBody>, res: Response) => {
 
   const checkUserQuery = `
   SELECT *
@@ -86,7 +84,7 @@ router.put("/changepassword", verifyJsonToken, async (req: Request<{}, {}, Chang
       human_email: checkUser.rows[0].email
     }
 
-    res.status(200).json({ emailjsData })
+    res.status(200).json(emailjsData)
 
   } catch (error: unknown) {
     if (error instanceof Error) {

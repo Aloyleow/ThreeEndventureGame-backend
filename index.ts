@@ -9,8 +9,8 @@ import signupRouter from "./controllers/signupController"
 import loginRouter from "./controllers/loginController"
 import forgetPassRouter from "./controllers/forgetPassController"
 import changePassRouter from "./controllers/changePassController"
-import charactersRouter from "./controllers/charactersController"
-import warriorRouter from "./controllers/gameScaffoldController"
+import characterSelectedRouter from "./controllers/characterSelectedController"
+
 
 dotenv.config();
 
@@ -32,16 +32,16 @@ app.use("/api/user",
   forgetPassRouter
 );
 
-app.use("/api/user/verified",
-  changePassRouter,
-  charactersRouter
-);
-
 app.use(verifyJsonToken)
 
-app.use("/api/user/verified/start", 
-  warriorRouter
+app.use("/api/user/verified",
+  changePassRouter,
+  characterSelectedRouter
 );
+
+// app.use("/api/user/verified/start", 
+  
+// );
 
 
 app.listen(port, () =>{
