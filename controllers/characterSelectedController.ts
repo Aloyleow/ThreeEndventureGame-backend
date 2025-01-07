@@ -81,7 +81,7 @@ router.post("/characterselected", async (req: Request<{},{}, CharacterReqBody>, 
       return;
     };
 
-    res.status(201).json({checkActiveChar});
+    res.status(201).json({success: "Data stored"});
 
   } catch (error){
     if (error instanceof Error) {

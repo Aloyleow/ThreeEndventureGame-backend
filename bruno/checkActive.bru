@@ -1,0 +1,30 @@
+meta {
+  name: checkActive
+  type: http
+  seq: 8
+}
+
+post {
+  url: http://localhost:8888/api/user/verified/characterselected
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2Vyc2lkIjoxLCJ1c2VybmFtZSI6IkFsb3kiLCJpYXQiOjE3MzYyMjEzMDAsImV4cCI6MTczNjIyNDkwMH0.67ZqeSAMu1x6hd7Jf_8fOzufnbDBwGGA8nVUHZK7NHk
+}
+
+body:json {
+  {
+    "image": "test",
+    "alt": "test",
+    "role": "Human",
+    "health": 0,
+    "mana": 0,
+    "gold": 0,
+    "attack": 0, 
+    "turns": 0, 
+    "active": false,
+    "win": false
+  }
+}
