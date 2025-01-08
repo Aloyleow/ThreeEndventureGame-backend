@@ -63,7 +63,7 @@ router.post("/signup", async (req: Request<{}, {}, SignupReqBody>, res: Response
       return;
     }
 
-    const { username, email } = userSignup.rows[0]
+    const { username, email } = userSignup.rows[0];
     res.status(201).json({ username, email });
 
   } catch (error: unknown) {
@@ -74,7 +74,7 @@ router.post("/signup", async (req: Request<{}, {}, SignupReqBody>, res: Response
       res.status(500).json({ error: "Internal server error" });
     }
   }
-})
+});
 
 export default router
 

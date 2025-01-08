@@ -69,7 +69,7 @@ router.post("/forgetpassword", async (req: Request<{}, {}, ForgetPasswordReqBody
       human_name: checkEmail.rows[0].username,
       new_password: tempPassword,
       human_email: req.body.email
-    }
+    };
 
     res.status(201).json(emailjsData)
 
@@ -83,6 +83,6 @@ router.post("/forgetpassword", async (req: Request<{}, {}, ForgetPasswordReqBody
 
   }
 
-})
+});
 
 export default router

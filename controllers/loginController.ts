@@ -85,6 +85,6 @@ router.post("/login", async (req: Request<{}, {}, LoginReqBody>, res: Response) 
 
   }
   
-})
+});
 
 export default router

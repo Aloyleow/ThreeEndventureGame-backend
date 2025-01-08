@@ -32,10 +32,10 @@ router.get("/playerchar", async (req: Request, res: Response) => {
       res.status(500).json({ error: error.message });
     } else {
       res.status(500).json({ error: "Internal server error" });
-    };
+    }
   }
 
-})
+});
 
 router.delete("/playerchar", async (req: Request, res: Response) => {
 
@@ -73,9 +73,9 @@ router.delete("/playerchar", async (req: Request, res: Response) => {
       res.status(500).json({ error: error.message });
     } else {
       res.status(500).json({ error: "Internal server error" });
-    };
+    }
   }
 
-})
+});
 
 export default router

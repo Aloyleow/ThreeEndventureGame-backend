@@ -88,7 +88,7 @@ router.post("/characterselected", async (req: Request<{},{}, CharacterReqBody>, 
       res.status(500).json({ error: error.message });
     } else {
       res.status(500).json({ error: "Internal server error" });
-    };
+    }
   }
 
 });

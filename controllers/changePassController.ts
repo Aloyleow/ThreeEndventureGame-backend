@@ -94,6 +94,6 @@ router.put("/changepassword", async (req: Request<{}, {}, ChangePasswordReqBody>
     }
   }
 
-})
+});
 
 export default router
