@@ -11,6 +11,8 @@ const characterSchema = z.object({
   image: z.string(),
   alt: z.string(),
   role: RoleEnum,
+  items: z.string(),
+  skills: z.string(),
   health: z.number(),
   mana: z.number(),
   gold: z.number(),
@@ -29,6 +31,8 @@ router.post("/characterselected", async (req: Request<{},{}, CharacterReqBody>, 
   image,
   alt, 
   role,
+  items,
+  skills,
   health,
   mana,
   gold,
@@ -37,7 +41,7 @@ router.post("/characterselected", async (req: Request<{},{}, CharacterReqBody>, 
   active,
   win, 
   usersid)
-  VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
+  VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)
   RETURNING *
   `;
 
@@ -58,6 +62,8 @@ router.post("/characterselected", async (req: Request<{},{}, CharacterReqBody>, 
     req.body.image,
     req.body.alt,
     req.body.role,
+    req.body.items,
+    req.body.skills,
     req.body.health,
     req.body.mana,
     req.body.gold,
