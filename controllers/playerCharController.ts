@@ -14,20 +14,51 @@ router.get("/playerchar", async (req: Request, res: Response) => {
 
   try {
     const checkActiveChar = await pool.query(queryActiveChar, [req.humanJson?.username, req.humanJson?.usersid])
-    
+
     const rowCount = checkActiveChar.rowCount ?? 0;
-    
-    if (rowCount === 0){
+
+    if (rowCount === 0) {
       res.status(200).json({ checked: "na" })
-      return 
+      return
     }
     if (rowCount > 1) {
       throw new Error("More than 1 active sessions")
     }
 
-    res.status(201).json(checkActiveChar.rows[0]);
+    const handleDataValue: CharacterResData = checkActiveChar.rows[0];
 
-  } catch (error){
+    const {
+      image,
+      alt,
+      role,
+      skills,
+      health,
+      mana,
+      gold,
+      attack,
+      turns,
+      active,
+      win,
+    } = handleDataValue;
+
+    const handleData: CharacterReqBody = {
+      image,
+      alt,
+      role,
+      items: handleDataValue.items.split(","),
+      skills: handleDataValue.skills.split(","),
+      health,
+      mana,
+      gold,
+      attack,
+      turns,
+      active,
+      win,
+    };
+    
+    res.status(201).json(handleData);
+
+  } catch (error) {
     if (error instanceof Error) {
       res.status(500).json({ error: error.message });
     } else {
@@ -52,9 +83,9 @@ router.delete("/playerchar", async (req: Request, res: Response) => {
 
   try {
     const checkActiveChar = await pool.query(queryActiveChar, [req.humanJson?.username, req.humanJson?.usersid])
-    
+
     const rowCount = checkActiveChar.rowCount ?? 0;
-    if (rowCount === 0){
+    if (rowCount === 0) {
       throw new Error("No session to delete")
     }
     if (rowCount > 1) {
@@ -68,7 +99,7 @@ router.delete("/playerchar", async (req: Request, res: Response) => {
 
     res.status(201).json({ checked: "deleted" });
 
-  } catch (error){
+  } catch (error) {
     if (error instanceof Error) {
       res.status(500).json({ error: error.message });
     } else {

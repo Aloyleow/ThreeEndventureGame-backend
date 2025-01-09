@@ -1,28 +1,8 @@
 import express, { type Request, type Response } from "express";
-import { z } from "zod";
 
 import pool from "../services/pool";
 
 const router = express.Router();
-
-const RoleEnum = z.enum(['Knight', 'Human', 'Mage'])
-
-const characterSchema = z.object({
-  image: z.string(),
-  alt: z.string(),
-  role: RoleEnum,
-  items: z.string(),
-  skills: z.string(),
-  health: z.number(),
-  mana: z.number(),
-  gold: z.number(),
-  attack: z.number(), 
-  turns: z.number(), 
-  active: z.boolean(),
-  win: z.boolean(), 
-});
-
-type CharacterReqBody = z.infer<typeof characterSchema>;
 
 router.post("/characterselected", async (req: Request<{},{}, CharacterReqBody>, res: Response) => {
   const queryNewChar = `
@@ -57,13 +37,15 @@ router.post("/characterselected", async (req: Request<{},{}, CharacterReqBody>, 
     throw new Error(`Req.body validation type failed ${validateError}` );
   };
 
+  
+
   const input = [
     req.humanJson?.username,
     req.body.image,
     req.body.alt,
     req.body.role,
-    req.body.items,
-    req.body.skills,
+    req.body.items.join(","), 
+    req.body.skills.join(","), 
     req.body.health,
     req.body.mana,
     req.body.gold,
