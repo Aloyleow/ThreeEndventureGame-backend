@@ -1,11 +1,31 @@
 import express, { type Request, type Response } from "express";
+import { z } from "zod";
 
 import pool from "../services/pool";
 
 const router = express.Router();
 
-router.post("/characterselected", async (req: Request<{},{}, CharacterReqBody>, res: Response) => {
-  const queryNewChar = `
+const RoleEnum = z.enum(['Knight', 'Human', 'Mage'])
+
+const roleSelectedSchema = z.object({
+  image: z.string(),
+  alt: z.string(),
+  role: RoleEnum,
+  items: z.array(z.string()),
+  skills: z.array(z.string()),
+  health: z.number(),
+  mana: z.number(),
+  gold: z.number(),
+  attack: z.number(),
+  turns: z.number(),
+  active: z.boolean(),
+  win: z.boolean(),
+});
+
+type RoleSelectedReqBody = z.infer<typeof roleSelectedSchema>;
+
+router.post("/roleselected", async (req: Request<{},{}, RoleSelectedReqBody>, res: Response) => {
+  const queryNewRole = `
   INSERT INTO characterselected (
   username,
   image,
@@ -25,19 +45,17 @@ router.post("/characterselected", async (req: Request<{},{}, CharacterReqBody>, 
   RETURNING *
   `;
 
-  const queryActiveChar = `
+  const queryActiveRole = `
   SELECT *
   FROM characterselected
   WHERE username = $1 AND usersid = $2 AND active = true
   `
 
-  const validateReqBody =characterSchema.safeParse(req.body);
+  const validateReqBody = roleSelectedSchema.safeParse(req.body);
   if (!validateReqBody.success) {
     const validateError = validateReqBody.error.issues.map(item => item.message);
     throw new Error(`Req.body validation type failed ${validateError}` );
   };
-
-  
 
   const input = [
     req.humanJson?.username,
@@ -57,14 +75,14 @@ router.post("/characterselected", async (req: Request<{},{}, CharacterReqBody>, 
   ];
 
   try {
-    const checkActiveChar = await pool.query(queryActiveChar, [req.humanJson?.username, req.humanJson?.usersid])
-    if (checkActiveChar.rowCount !== 0){
+    const checkActiveRole = await pool.query(queryActiveRole, [req.humanJson?.username, req.humanJson?.usersid])
+    if (checkActiveRole.rowCount !== 0){
       res.status(500).json({ error: "Active session in progress"})
       return;
     }
 
-    const recordNewChar = await pool.query(queryNewChar, input);
-    if (!recordNewChar) {
+    const recordNewRole = await pool.query(queryNewRole, input);
+    if (!recordNewRole) {
       res.status(500).json({ error: "unable to record in db" });
       return;
     };

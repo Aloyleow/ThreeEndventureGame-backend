@@ -1,21 +1,41 @@
 import express, { type Request, type Response } from "express";
+import { z } from "zod";
 
 import pool from "../services/pool";
 
 const router = express.Router();
 
-router.get("/playerchar", async (req: Request, res: Response) => {
+const RoleEnum = z.enum(['Knight', 'Human', 'Mage'])
 
-  const queryActiveChar = `
+const playerDataSchema = z.object({
+  image: z.string(),
+  alt: z.string(),
+  role: RoleEnum,
+  items: z.array(z.string()),
+  skills: z.array(z.string()),
+  health: z.number(),
+  mana: z.number(),
+  gold: z.number(),
+  attack: z.number(),
+  turns: z.number(),
+  active: z.boolean(),
+  win: z.boolean(),
+});
+
+type PlayerData = z.infer<typeof playerDataSchema>;
+
+router.get("/player", async (req: Request, res: Response) => {
+
+  const queryActiveRole = `
   SELECT *
   FROM characterselected
   WHERE username = $1 AND usersid = $2 AND active = true
   `
 
   try {
-    const checkActiveChar = await pool.query(queryActiveChar, [req.humanJson?.username, req.humanJson?.usersid])
+    const checkActiveRole = await pool.query(queryActiveRole, [req.humanJson?.username, req.humanJson?.usersid])
 
-    const rowCount = checkActiveChar.rowCount ?? 0;
+    const rowCount = checkActiveRole.rowCount ?? 0;
 
     if (rowCount === 0) {
       res.status(200).json({ checked: "na" })
@@ -25,12 +45,11 @@ router.get("/playerchar", async (req: Request, res: Response) => {
       throw new Error("More than 1 active sessions")
     }
 
-    const handleDataValue: CharacterResData = checkActiveChar.rows[0];
-
     const {
       image,
       alt,
       role,
+      items,
       skills,
       health,
       mana,
@@ -39,14 +58,14 @@ router.get("/playerchar", async (req: Request, res: Response) => {
       turns,
       active,
       win,
-    } = handleDataValue;
+    } = checkActiveRole.rows[0];
 
-    const handleData: CharacterReqBody = {
+    const handleData: PlayerData = {
       image,
       alt,
       role,
-      items: handleDataValue.items.split(","),
-      skills: handleDataValue.skills.split(","),
+      items: items.split(","),
+      skills: skills.split(","),
       health,
       mana,
       gold,
@@ -55,7 +74,7 @@ router.get("/playerchar", async (req: Request, res: Response) => {
       active,
       win,
     };
-    
+
     res.status(201).json(handleData);
 
   } catch (error) {
@@ -68,9 +87,9 @@ router.get("/playerchar", async (req: Request, res: Response) => {
 
 });
 
-router.delete("/playerchar", async (req: Request, res: Response) => {
+router.delete("/player", async (req: Request, res: Response) => {
 
-  const queryActiveChar = `
+  const queryActiveRole = `
   SELECT *
   FROM characterselected
   WHERE username = $1 AND usersid = $2 AND active = true
@@ -82,9 +101,9 @@ router.delete("/playerchar", async (req: Request, res: Response) => {
   `
 
   try {
-    const checkActiveChar = await pool.query(queryActiveChar, [req.humanJson?.username, req.humanJson?.usersid])
+    const checkActiveRole = await pool.query(queryActiveRole, [req.humanJson?.username, req.humanJson?.usersid])
 
-    const rowCount = checkActiveChar.rowCount ?? 0;
+    const rowCount = checkActiveRole.rowCount ?? 0;
     if (rowCount === 0) {
       throw new Error("No session to delete")
     }
@@ -92,8 +111,8 @@ router.delete("/playerchar", async (req: Request, res: Response) => {
       throw new Error("More than 1 active sessions")
     }
 
-    const deleteActiveChar = await pool.query(queryDeleteActive, [req.humanJson?.username, req.humanJson?.usersid])
-    if (!deleteActiveChar) {
+    const deleteActiveRole = await pool.query(queryDeleteActive, [req.humanJson?.username, req.humanJson?.usersid])
+    if (!deleteActiveRole) {
       throw new Error("Unable to delete data")
     }
 
