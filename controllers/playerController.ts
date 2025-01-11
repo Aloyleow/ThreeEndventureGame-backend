@@ -28,7 +28,7 @@ router.get("/player", async (req: Request, res: Response) => {
 
   const queryActiveRole = `
   SELECT *
-  FROM characterselected
+  FROM playerRoles
   WHERE username = $1 AND usersid = $2 AND active = true
   `
 
@@ -75,6 +75,13 @@ router.get("/player", async (req: Request, res: Response) => {
       win,
     };
 
+    const validateReqBody = playerDataSchema.safeParse(handleData);
+    if (!validateReqBody.success) {
+      const validateError = validateReqBody.error.issues.map(item => item.message);
+      res.status(422).json({ error: `Validation type failed ${validateError}` });
+      return;
+    }
+
     res.status(201).json(handleData);
 
   } catch (error) {
@@ -91,12 +98,12 @@ router.delete("/player", async (req: Request, res: Response) => {
 
   const queryActiveRole = `
   SELECT *
-  FROM characterselected
+  FROM playerRoles
   WHERE username = $1 AND usersid = $2 AND active = true
   `
   const queryDeleteActive = `
   DELETE
-  FROM characterselected
+  FROM playerRoles
   WHERE username = $1 AND usersid = $2 AND active = true
   `
 

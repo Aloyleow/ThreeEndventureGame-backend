@@ -1,12 +1,12 @@
 meta {
-  name: checkActive
+  name: roleSelected
   type: http
-  seq: 8
+  seq: 7
 }
 
-get {
-  url: http://localhost:8888/api/user/verified/player
-  body: none
+post {
+  url: http://localhost:8888/api/user/verified/roleselected
+  body: json
   auth: bearer
 }
 
@@ -19,12 +19,14 @@ body:json {
     "image": "test",
     "alt": "test",
     "role": "Human",
+    "items": ["hello", "welp"],
+    "skills": ["hello", "welp"],
     "health": 0,
     "mana": 0,
     "gold": 0,
     "attack": 0, 
     "turns": 0, 
-    "active": false,
+    "active": true,
     "win": false
   }
 }

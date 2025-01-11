@@ -11,6 +11,7 @@ import forgetPassRouter from "./controllers/forgetPassController"
 import changePassRouter from "./controllers/changePassController"
 import roleSelectedRouter from "./controllers/roleSelectedController"
 import playerRouter from "./controllers/playerController"
+import storeItemsRouter from "./controllers/storeItemsController"
 
 dotenv.config();
 
@@ -37,7 +38,8 @@ app.use(verifyJsonToken)
 app.use("/api/user/verified",
   changePassRouter,
   roleSelectedRouter,
-  playerRouter
+  playerRouter,
+  storeItemsRouter
 );
 
 // app.use("/api/user/verified/start", 

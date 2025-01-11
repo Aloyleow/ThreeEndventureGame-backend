@@ -26,7 +26,7 @@ type RoleSelectedReqBody = z.infer<typeof roleSelectedSchema>;
 
 router.post("/roleselected", async (req: Request<{},{}, RoleSelectedReqBody>, res: Response) => {
   const queryNewRole = `
-  INSERT INTO characterselected (
+  INSERT INTO playerRoles (
   username,
   image,
   alt, 
@@ -47,7 +47,7 @@ router.post("/roleselected", async (req: Request<{},{}, RoleSelectedReqBody>, re
 
   const queryActiveRole = `
   SELECT *
-  FROM characterselected
+  FROM playerRoles
   WHERE username = $1 AND usersid = $2 AND active = true
   `
 

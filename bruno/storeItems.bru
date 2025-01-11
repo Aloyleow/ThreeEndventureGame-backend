@@ -1,0 +1,21 @@
+meta {
+  name: storeItems
+  type: http
+  seq: 9
+}
+
+post {
+  url: http://localhost:8888/api/user/verified/storeItems
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2Vyc2lkIjoxLCJ1c2VybmFtZSI6IkFsb3kiLCJpYXQiOjE3MzY1MjgxMTAsImV4cCI6MTczNjUzMTcxMH0.nFN_1k6UseqpZW432_21UOHk2uqIpxxysSqj9a2bGrA
+}
+
+body:json {
+  {
+    "level": 1
+  }
+}
