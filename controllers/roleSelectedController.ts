@@ -14,7 +14,9 @@ const roleSelectedSchema = z.object({
   items: z.array(z.string()),
   skills: z.array(z.string()),
   health: z.number(),
+  maxHealth: z.number(),
   mana: z.number(),
+  maxMana: z.number(),
   gold: z.number(),
   attack: z.number(),
   turns: z.number(),
@@ -34,14 +36,16 @@ router.post("/roleselected", async (req: Request<{},{}, RoleSelectedReqBody>, re
   items,
   skills,
   health,
+  maxhealth,
   mana,
+  maxMana,
   gold,
   attack, 
   turns, 
   active,
   win, 
   usersid)
-  VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)
+  VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16)
   RETURNING *
   `;
 
@@ -65,7 +69,9 @@ router.post("/roleselected", async (req: Request<{},{}, RoleSelectedReqBody>, re
     req.body.items.join(","), 
     req.body.skills.join(","), 
     req.body.health,
+    req.body.maxHealth,
     req.body.mana,
+    req.body.maxMana,
     req.body.gold,
     req.body.attack,
     req.body.turns,
