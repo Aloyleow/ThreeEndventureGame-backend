@@ -24,7 +24,7 @@ const roleSelectedSchema = z.object({
 
 type RoleSelectedReqBody = z.infer<typeof roleSelectedSchema>;
 
-router.post("/roleselected", async (req: Request<{},{}, RoleSelectedReqBody>, res: Response) => {
+router.post("/roleselected", async (req: Request<{},{}, RoleSelectedReqBody>, res: Response<"ThreeEndventure" | { error: string }>) => {
   const queryNewRole = `
   INSERT INTO playerRoles (
   username,
@@ -87,7 +87,7 @@ router.post("/roleselected", async (req: Request<{},{}, RoleSelectedReqBody>, re
       return;
     };
 
-    res.status(201).json({success: "Data stored"});
+    res.status(201).json("ThreeEndventure");
 
   } catch (error){
     if (error instanceof Error) {

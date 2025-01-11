@@ -14,7 +14,7 @@ const signupSchema = z.object({
 
 type SignupReqBody = z.infer<typeof signupSchema>;
 
-router.post("/signup", async (req: Request<{}, {}, SignupReqBody>, res: Response) => {
+router.post("/signup", async (req: Request<{}, {}, SignupReqBody>, res: Response<"ThreeEndventure" | { error: string }>) => {
 
   const queryCheckUser = `
     SELECT *
@@ -63,8 +63,7 @@ router.post("/signup", async (req: Request<{}, {}, SignupReqBody>, res: Response
       return;
     }
 
-    const { username, email } = userSignup.rows[0];
-    res.status(201).json({ username, email });
+    res.status(201).json("ThreeEndventure");
 
   } catch (error: unknown) {
 

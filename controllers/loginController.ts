@@ -14,12 +14,16 @@ const loginSchema = z.object({
 
 type LoginReqBody = z.infer<typeof loginSchema>;
 
+type Token = {
+  token: string
+}
+
 type JwtPayload = {
   usersid: number;
   username: string;
 };
 
-router.post("/login", async (req: Request<{}, {}, LoginReqBody>, res: Response) => {
+router.post("/login", async (req: Request<{}, {}, LoginReqBody>, res: Response<Token | {error: string}>) => {
 
   const queryCheckUser = `
     SELECT * FROM users WHERE username = $1

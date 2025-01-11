@@ -6,6 +6,11 @@ import pool from "../services/pool";
 
 const router = express.Router();
 
+type EmailJsData = {
+  human_name: string,
+  human_email: string,
+}
+
 const changepasswordSchema = z.object({
   oldPassword: z.string(),
   newPassword: z.string(),
@@ -13,7 +18,7 @@ const changepasswordSchema = z.object({
 
 type ChangePasswordReqBody = z.infer<typeof changepasswordSchema>;
 
-router.put("/changepassword", async (req: Request<{}, {}, ChangePasswordReqBody>, res: Response) => {
+router.put("/changepassword", async (req: Request<{}, {}, ChangePasswordReqBody>, res: Response<EmailJsData | { error: string }>) => {
 
   const checkUserQuery = `
   SELECT *
@@ -79,7 +84,7 @@ router.put("/changepassword", async (req: Request<{}, {}, ChangePasswordReqBody>
       return;
     }
 
-    const emailjsData = {
+    const emailjsData: EmailJsData = {
       human_name: checkUser.rows[0].username,
       human_email: checkUser.rows[0].email
     }

@@ -24,7 +24,7 @@ const playerDataSchema = z.object({
 
 type PlayerData = z.infer<typeof playerDataSchema>;
 
-router.get("/player", async (req: Request, res: Response) => {
+router.get("/player", async (req: Request, res: Response<PlayerData | { checked: string } | { error: string }>) => {
 
   const queryActiveRole = `
   SELECT *
@@ -94,7 +94,7 @@ router.get("/player", async (req: Request, res: Response) => {
 
 });
 
-router.delete("/player", async (req: Request, res: Response) => {
+router.delete("/player", async (req: Request, res: Response<"ThreeEndventure" | { error: string }>) => {
 
   const queryActiveRole = `
   SELECT *
@@ -123,7 +123,7 @@ router.delete("/player", async (req: Request, res: Response) => {
       throw new Error("Unable to delete data")
     }
 
-    res.status(201).json({ checked: "deleted" });
+    res.status(201).json("ThreeEndventure");
 
   } catch (error) {
     if (error instanceof Error) {

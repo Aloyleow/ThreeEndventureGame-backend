@@ -7,13 +7,19 @@ import { randomSix } from "../services/newPassword";
 
 const router = express.Router();
 
+type EmailJsData = {
+  human_name: string,
+  new_password: string,
+  human_email: string,
+}
+
 const forgetpasswordSchema = z.object({
   email: z.string().email(),
 });
 
 type ForgetPasswordReqBody = z.infer<typeof forgetpasswordSchema>;
 
-router.post("/forgetpassword", async (req: Request<{}, {}, ForgetPasswordReqBody>, res: Response) => {
+router.post("/forgetpassword", async (req: Request<{}, {}, ForgetPasswordReqBody>, res: Response<EmailJsData | { error: string }>) => {
 
   const checkEmailQuery = `
   SELECT * FROM users WHERE email = $1
@@ -47,7 +53,7 @@ router.post("/forgetpassword", async (req: Request<{}, {}, ForgetPasswordReqBody
       return
     };
     if (checkEmail.rows.length > 1) {
-      throw new Error( "Email duplicates found" )
+      throw new Error("Email duplicates found")
     };
 
     const hashPass = await argon2.hash(tempPassword, {
@@ -62,10 +68,10 @@ router.post("/forgetpassword", async (req: Request<{}, {}, ForgetPasswordReqBody
 
     const updatePass = await pool.query(changePassQuery, input)
     if (!updatePass) {
-      throw new Error( "unable to udpate info in db." );
+      throw new Error("unable to udpate info in db.");
     }
 
-    const emailjsData = {
+    const emailjsData: EmailJsData = {
       human_name: checkEmail.rows[0].username,
       new_password: tempPassword,
       human_email: req.body.email
