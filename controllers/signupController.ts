@@ -32,7 +32,7 @@ router.post("/signup", async (req: Request<{}, {}, SignupReqBody>, res: Response
 
     const validateReqBody = signupSchema.safeParse(req.body);
     if (!validateReqBody.success) {
-      const validateError = validateReqBody.error.issues.map(item => item.message);
+      const validateError = validateReqBody.error.issues.map(item =>` ${item.path}: ${item.message}`);
       throw new Error(`Req.body validation type failed ${validateError}` );
     }
 

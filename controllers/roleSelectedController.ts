@@ -11,12 +11,13 @@ const roleSelectedSchema = z.object({
   image: z.string(),
   alt: z.string(),
   role: RoleEnum,
+  pathtaken: z.array(z.string()),
   items: z.array(z.string()),
   skills: z.array(z.string()),
   health: z.number(),
-  maxHealth: z.number(),
+  maxhealth: z.number(),
   mana: z.number(),
-  maxMana: z.number(),
+  maxmana: z.number(),
   gold: z.number(),
   attack: z.number(),
   turns: z.number(),
@@ -33,19 +34,20 @@ router.post("/roleselected", async (req: Request<{},{}, RoleSelectedReqBody>, re
   image,
   alt, 
   role,
+  pathtaken,
   items,
   skills,
   health,
   maxhealth,
   mana,
-  maxMana,
+  maxmana,
   gold,
   attack, 
   turns, 
   active,
   win, 
   usersid)
-  VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16)
+  VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17)
   RETURNING *
   `;
 
@@ -57,21 +59,23 @@ router.post("/roleselected", async (req: Request<{},{}, RoleSelectedReqBody>, re
 
   const validateReqBody = roleSelectedSchema.safeParse(req.body);
   if (!validateReqBody.success) {
-    const validateError = validateReqBody.error.issues.map(item => item.message);
-    throw new Error(`Req.body validation type failed ${validateError}` );
-  };
-
+    const validateError = validateReqBody.error.issues.map(item =>` ${item.path}: ${item.message}`);
+    res.status(422).json({ error: `Validation type failed ${validateError}` });
+    return;
+  }
+  
   const input = [
     req.humanJson?.username,
     req.body.image,
     req.body.alt,
     req.body.role,
+    req.body.pathtaken.join(","),
     req.body.items.join(","), 
     req.body.skills.join(","), 
     req.body.health,
-    req.body.maxHealth,
+    req.body.maxhealth,
     req.body.mana,
-    req.body.maxMana,
+    req.body.maxmana,
     req.body.gold,
     req.body.attack,
     req.body.turns,

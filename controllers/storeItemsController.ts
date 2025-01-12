@@ -25,11 +25,10 @@ router.post("/storeitems", async (req: Request<{}, {}, CurrentLevel>, res: Respo
 
     const validateReqBody = currentLevelSchema.safeParse(req.body);
     if (!validateReqBody.success) {
-      const validateError = validateReqBody.error.issues.map(item => item.message);
-      res.status(422).json({ error: `Validation type failed ${validateError}` });
-      return;
+      const validateError = validateReqBody.error.issues.map(item =>` ${item.path}: ${item.message}`);
+      throw new Error(`Validation type failed ${validateError}`);
     }
-
+    
     const importItems = items;
     if (!items) {
       throw new Error("Unable to import items data")

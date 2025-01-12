@@ -35,7 +35,7 @@ router.put("/changepassword", async (req: Request<{}, {}, ChangePasswordReqBody>
 
     const validateReqBody = changepasswordSchema.safeParse(req.body);
     if (!validateReqBody.success) {
-      const validateError = validateReqBody.error.issues.map(issues => issues.message);
+      const validateError = validateReqBody.error.issues.map(item =>` ${item.path}: ${item.message}`);
       res.status(422).json({ error: `Validation type failed ${validateError}` });
       return;
     };

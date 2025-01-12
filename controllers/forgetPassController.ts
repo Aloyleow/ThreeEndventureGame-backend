@@ -37,7 +37,7 @@ router.post("/forgetpassword", async (req: Request<{}, {}, ForgetPasswordReqBody
 
     const validateReqBody = forgetpasswordSchema.safeParse(req.body);
     if (!validateReqBody.success) {
-      const validateError = validateReqBody.error.issues.map(item => item.message);
+      const validateError = validateReqBody.error.issues.map((item =>` ${item.path}: ${item.message}`));
       res.status(422).json({ error: `Validation type failed ${validateError}` });
       return
     };

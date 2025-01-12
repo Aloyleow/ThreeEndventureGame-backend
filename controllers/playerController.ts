@@ -14,9 +14,9 @@ const playerDataSchema = z.object({
   items: z.array(z.string()),
   skills: z.array(z.string()),
   health: z.number(),
-  maxHealth: z.number(),
+  maxhealth: z.number(),
   mana: z.number(),
-  maxMana: z.number(),
+  maxmana: z.number(),
   gold: z.number(),
   attack: z.number(),
   turns: z.number(),
@@ -30,7 +30,7 @@ router.get("/player", async (req: Request, res: Response<PlayerData | { checked:
 
   const queryActiveRole = `
   SELECT *
-  FROM playerRoles
+  FROM playerroles
   WHERE username = $1 AND usersid = $2 AND active = true
   `
 
@@ -54,9 +54,9 @@ router.get("/player", async (req: Request, res: Response<PlayerData | { checked:
       items,
       skills,
       health,
-      maxHealth,
+      maxhealth,
       mana,
-      maxMana,
+      maxmana,
       gold,
       attack,
       turns,
@@ -71,9 +71,9 @@ router.get("/player", async (req: Request, res: Response<PlayerData | { checked:
       items: items.split(","),
       skills: skills.split(","),
       health,
-      maxHealth,
+      maxhealth,
       mana,
-      maxMana,
+      maxmana,
       gold,
       attack,
       turns,
@@ -83,7 +83,7 @@ router.get("/player", async (req: Request, res: Response<PlayerData | { checked:
 
     const validateReqBody = playerDataSchema.safeParse(handleData);
     if (!validateReqBody.success) {
-      const validateError = validateReqBody.error.issues.map(item => item.message);
+      const validateError = validateReqBody.error.issues.map(item =>` ${item.path}: ${item.message}`);
       res.status(422).json({ error: `Validation type failed ${validateError}` });
       return;
     }
