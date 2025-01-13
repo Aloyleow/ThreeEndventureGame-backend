@@ -1,0 +1,21 @@
+meta {
+  name: gamePaths
+  type: http
+  seq: 10
+}
+
+post {
+  url: http://localhost:8888/api/user/verified/storeItems
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2Vyc2lkIjoyLCJ1c2VybmFtZSI6IkFsb3kiLCJpYXQiOjE3MzY1ODAxMDEsImV4cCI6MTczNjU4MzcwMX0.8GNi7FVfdDY51bdCbfsg0Z21JNjTR_W1tl-xiLAu5Ec
+}
+
+body:json {
+  {
+    "level": 1
+  }
+}

@@ -24,7 +24,7 @@ const gamePathResSchema = z.array(z.object({
 
 type GamePathRes = z.infer<typeof gamePathResSchema>;
 
-router.post("/path", (req: Request<{}, {}, MonsterKilled>, res: Response<GamePathRes | {error: string}>) => {
+router.post("/gamepath", (req: Request<{}, {}, MonsterKilled>, res: Response<GamePathRes | {error: string}>) => {
   try {
 
     const validateReqBody = monsterKilledSchema.safeParse(req.body);

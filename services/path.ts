@@ -13,7 +13,7 @@ type GamePath = {
 const gamePath: GamePath = [
   {
     pathId: 1,
-    pathName: "Forest", 
+    pathName: "Forest",
     encounter: {
       enemy: true,
       name: "Slime",
@@ -24,7 +24,7 @@ const gamePath: GamePath = [
   },
   {
     pathId: 2,
-    pathName: "Shed", 
+    pathName: "Shed",
     encounter: {
       enemy: true,
       name: "Zombie",
@@ -35,7 +35,7 @@ const gamePath: GamePath = [
   },
   {
     pathId: 3,
-    pathName: "Ruins", 
+    pathName: "Ruins",
     encounter: {
       enemy: true,
       name: "Skeleton",
@@ -46,7 +46,7 @@ const gamePath: GamePath = [
   },
   {
     pathId: 4,
-    pathName: "River", 
+    pathName: "River",
     encounter: {
       enemy: true,
       name: "20kg Cockroach",
@@ -57,7 +57,7 @@ const gamePath: GamePath = [
   },
   {
     pathId: 5,
-    pathName: "Cave", 
+    pathName: "Cave",
     encounter: {
       enemy: true,
       name: "Glowing Bear",
@@ -68,7 +68,7 @@ const gamePath: GamePath = [
   },
   {
     pathId: 6,
-    pathName: "Temple", 
+    pathName: "Temple",
     encounter: {
       enemy: true,
       name: "Dragon",
@@ -79,7 +79,7 @@ const gamePath: GamePath = [
   },
   {
     pathId: 7,
-    pathName: "Mountain", 
+    pathName: "Mountain",
     encounter: {
       enemy: true,
       name: "Unknown",
@@ -91,25 +91,33 @@ const gamePath: GamePath = [
 ];
 
 const filterGamePaths = (monsterKilled: string[], gamePath: GamePath) => {
-  
-  let returnedGamePaths = []
 
-  for (let i = 0; i < gamePath.length; i ++) {
-    for (const monster of monsterKilled) {
-      if (returnedGamePaths.length === 3) {
-        break;
-      }
-      if (monster !== gamePath[i].encounter.name){
-        returnedGamePaths.push(gamePath[i]);
+  let returnedGamePaths: GamePath = []
+
+  for (let i = 0; i < gamePath.length; i++) {
+    
+    if (returnedGamePaths.length === 3){
+      break;
+    }
+
+    let control = false;
+
+    for (let y = 0; y < monsterKilled.length; y ++){
+      if (gamePath[i].encounter.name === monsterKilled[y]){
+        control = true;
       }
     }
+
+    if (control === false) {
+      returnedGamePaths.push(gamePath[i])
+    }
+
   }
 
   return returnedGamePaths;
-  
 }
 
-export { 
+export {
   gamePath,
   filterGamePaths
 }
