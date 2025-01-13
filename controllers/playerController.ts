@@ -11,6 +11,7 @@ const playerDataSchema = z.object({
   image: z.string(),
   alt: z.string(),
   role: RoleEnum,
+  pathtaken: z.array(z.string()),
   items: z.array(z.string()),
   skills: z.array(z.string()),
   health: z.number(),
@@ -51,6 +52,7 @@ router.get("/player", async (req: Request, res: Response<PlayerData | { checked:
       image,
       alt,
       role,
+      pathtaken,
       items,
       skills,
       health,
@@ -68,6 +70,7 @@ router.get("/player", async (req: Request, res: Response<PlayerData | { checked:
       image,
       alt,
       role,
+      pathtaken: pathtaken.split(","),
       items: items.split(","),
       skills: skills.split(","),
       health,
@@ -84,9 +87,8 @@ router.get("/player", async (req: Request, res: Response<PlayerData | { checked:
     const validateReqBody = playerDataSchema.safeParse(handleData);
     if (!validateReqBody.success) {
       const validateError = validateReqBody.error.issues.map(item =>` ${item.path}: ${item.message}`);
-      res.status(422).json({ error: `Validation type failed ${validateError}` });
-      return;
-    }
+      throw new Error(`Validation type failed ${validateError}`);
+    };
 
     res.status(201).json(handleData);
 

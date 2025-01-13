@@ -36,19 +36,17 @@ router.put("/changepassword", async (req: Request<{}, {}, ChangePasswordReqBody>
     const validateReqBody = changepasswordSchema.safeParse(req.body);
     if (!validateReqBody.success) {
       const validateError = validateReqBody.error.issues.map(item =>` ${item.path}: ${item.message}`);
-      res.status(422).json({ error: `Validation type failed ${validateError}` });
-      return;
+      throw new Error(`Req.body validation type failed ${validateError}`);
     };
 
     const secret = process.env.ARGON_SECRET;
     if (!secret) {
       throw new Error("Dependencies missing.");
-    }
+    };
 
     if (!req.humanJson?.usersid || !req.humanJson?.username) {
-      res.status(400).json({ error: "Invalid user context" });
-      return;
-    }
+      throw new Error("Invalid user context");
+    };
 
     const checkUser = await pool.query(checkUserQuery, [req.humanJson?.usersid, req.humanJson?.username]);
     if (!checkUser) {
@@ -64,11 +62,12 @@ router.put("/changepassword", async (req: Request<{}, {}, ChangePasswordReqBody>
     if (!matchPassword) {
       res.status(401).json({ error: "Invalid password." })
       return;
-    }
+    };
+  
     if (req.body.newPassword === req.body.oldPassword) {
       res.status(401).json({ error: "New password must not be same as old password" })
       return;
-    }
+    };
 
     const hashPass = await argon2.hash(req.body.newPassword, { type: argon2.argon2id, secret: Buffer.from(secret) });
 
@@ -76,20 +75,19 @@ router.put("/changepassword", async (req: Request<{}, {}, ChangePasswordReqBody>
       hashPass,
       req.humanJson?.usersid,
       req.humanJson?.username
-    ]
+    ];
 
     const updatePass = await pool.query(changePassQuery, input)
     if (!updatePass) {
-      res.status(500).json({ error: "unable to record in db" });
-      return;
-    }
+      throw new Error("unable to record in db" );
+    };
 
     const emailjsData: EmailJsData = {
       human_name: checkUser.rows[0].username,
       human_email: checkUser.rows[0].email
-    }
+    };
 
-    res.status(200).json(emailjsData)
+    res.status(200).json(emailjsData);
 
   } catch (error: unknown) {
     if (error instanceof Error) {

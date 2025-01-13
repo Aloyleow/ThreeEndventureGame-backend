@@ -93,3 +93,13 @@ const gamePath: GamePath = [
 export { 
   gamePath
 }
+
+//function for calculating path
+
+const filterGamePaths = (monsterKilled: string[], gamePath: GamePath) => {
+  for (const obj of gamePath) {
+    
+  }
+  
+
+}

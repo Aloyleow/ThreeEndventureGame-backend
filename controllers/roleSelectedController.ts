@@ -60,9 +60,8 @@ router.post("/roleselected", async (req: Request<{},{}, RoleSelectedReqBody>, re
   const validateReqBody = roleSelectedSchema.safeParse(req.body);
   if (!validateReqBody.success) {
     const validateError = validateReqBody.error.issues.map(item =>` ${item.path}: ${item.message}`);
-    res.status(422).json({ error: `Validation type failed ${validateError}` });
-    return;
-  }
+    throw new Error(`Validation type failed ${validateError}`);
+  };
   
   const input = [
     req.humanJson?.username,
@@ -93,8 +92,7 @@ router.post("/roleselected", async (req: Request<{},{}, RoleSelectedReqBody>, re
 
     const recordNewRole = await pool.query(queryNewRole, input);
     if (!recordNewRole) {
-      res.status(500).json({ error: "unable to record in db" });
-      return;
+      throw new Error("unable to record in db");
     };
 
     res.status(201).json("ThreeEndventure");

@@ -61,7 +61,7 @@ router.post("/signup", async (req: Request<{}, {}, SignupReqBody>, res: Response
     if (userSignup.rowCount === 0) {
       res.status(500).json({ error: "Failed to create account" });
       return;
-    }
+    };
 
     res.status(201).json("ThreeEndventure");
 

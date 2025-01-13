@@ -18,7 +18,7 @@ const currentLevelSchema = z.object({
 
 
 type CurrentLevel = z.infer<typeof currentLevelSchema>;
-
+//RETURN ARRAy AND DO VALIDATIOn ON RESPONSE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 router.post("/storeitems", async (req: Request<{}, {}, CurrentLevel>, res: Response<Items | { error: string }>) => {
 
   try {

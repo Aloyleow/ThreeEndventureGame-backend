@@ -38,14 +38,13 @@ router.post("/forgetpassword", async (req: Request<{}, {}, ForgetPasswordReqBody
     const validateReqBody = forgetpasswordSchema.safeParse(req.body);
     if (!validateReqBody.success) {
       const validateError = validateReqBody.error.issues.map((item =>` ${item.path}: ${item.message}`));
-      res.status(422).json({ error: `Validation type failed ${validateError}` });
-      return
+      throw new Error(`Req.body validation type failed ${validateError}` );
     };
 
     const secret = process.env.ARGON_SECRET;
     if (!secret) {
       throw new Error("Dependencies missing.");
-    }
+    };
 
     const checkEmail = await pool.query(checkEmailQuery, [req.body.email]);
     if (checkEmail.rows.length < 1) {
@@ -69,7 +68,7 @@ router.post("/forgetpassword", async (req: Request<{}, {}, ForgetPasswordReqBody
     const updatePass = await pool.query(changePassQuery, input)
     if (!updatePass) {
       throw new Error("unable to udpate info in db.");
-    }
+    };
 
     const emailjsData: EmailJsData = {
       human_name: checkEmail.rows[0].username,

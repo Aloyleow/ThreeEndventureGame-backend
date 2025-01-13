@@ -24,7 +24,8 @@ app.use(cors());
 app.use(express.json());
 
 app.get("/test", (req, res) => {
- res.status(201).json({test: "test"})
+  const test = [1,2,3]
+ res.status(201).json(test)
 })
 
 app.use("/api/user", 
@@ -41,11 +42,6 @@ app.use("/api/user/verified",
   playerRouter,
   storeItemsRouter
 );
-
-// app.use("/api/user/verified/start", 
-  
-// );
-
 
 app.listen(port, () =>{
   console.log(`ThreeEndventure listening on port ${port}`)
