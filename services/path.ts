@@ -90,16 +90,26 @@ const gamePath: GamePath = [
   }
 ];
 
-export { 
-  gamePath
+const filterGamePaths = (monsterKilled: string[], gamePath: GamePath) => {
+  
+  let returnedGamePaths = []
+
+  for (let i = 0; i < gamePath.length; i ++) {
+    for (const monster of monsterKilled) {
+      if (returnedGamePaths.length === 3) {
+        break;
+      }
+      if (monster !== gamePath[i].encounter.name){
+        returnedGamePaths.push(gamePath[i]);
+      }
+    }
+  }
+
+  return returnedGamePaths;
+  
 }
 
-//function for calculating path
-
-const filterGamePaths = (monsterKilled: string[], gamePath: GamePath) => {
-  for (const obj of gamePath) {
-    
-  }
-  
-
+export { 
+  gamePath,
+  filterGamePaths
 }

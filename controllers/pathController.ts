@@ -1,6 +1,6 @@
 import express, { type Request, type Response } from "express";
 import { z } from "zod";
-import { gamePath } from "../services/path";
+import { filterGamePaths, gamePath } from "../services/path";
 
 const router = express.Router();
 
@@ -38,9 +38,18 @@ router.post("/path", (req: Request<{}, {}, MonsterKilled>, res: Response<GamePat
       throw new Error("Unable to import path data")
     }
 
+    const gamePathRes = filterGamePaths(req.body.monsterKilled, importPaths);
     
+    res.status(201).json(gamePathRes);
+
   } catch (error) {
-    
+    if (error instanceof Error) {
+      res.status(500).json({ error: error.message });
+    } else {
+      res.status(500).json({ error: "Internal server error" });
+    }
   }
 
-})
+});
+
+export default router
