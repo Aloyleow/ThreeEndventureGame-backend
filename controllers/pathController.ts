@@ -4,11 +4,11 @@ import { filterGamePaths, gamePath } from "../services/path";
 
 const router = express.Router();
 
-const monsterKilledSchema = z.object({
+const pathTakenSchema = z.object({
   monsterKilled: z.array(z.string())
 });
 
-type MonsterKilled = z.infer<typeof monsterKilledSchema>;
+type pathTaken = z.infer<typeof pathTakenSchema>;
 
 const gamePathResSchema = z.array(z.object({
   pathId: z.number(),
@@ -24,10 +24,10 @@ const gamePathResSchema = z.array(z.object({
 
 type GamePathRes = z.infer<typeof gamePathResSchema>;
 
-router.post("/gamepath", (req: Request<{}, {}, MonsterKilled>, res: Response<GamePathRes | {error: string}>) => {
+router.post("/gamepaths", (req: Request<{}, {}, pathTaken>, res: Response<GamePathRes | {error: string}>) => {
   try {
 
-    const validateReqBody = monsterKilledSchema.safeParse(req.body);
+    const validateReqBody = pathTakenSchema.safeParse(req.body);
     if (!validateReqBody.success) {
       const validateError = validateReqBody.error.issues.map(item =>` ${item.path}: ${item.message}`);
       throw new Error(`Validation type failed ${validateError}`);

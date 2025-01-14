@@ -1,0 +1,22 @@
+meta {
+  name: enemyroll
+  type: http
+  seq: 12
+}
+
+post {
+  url: http://localhost:8888/api/user/verified/playerroll
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2Vyc2lkIjoyLCJ1c2VybmFtZSI6IkFsb3kiLCJpYXQiOjE3MzY4MjI3MTQsImV4cCI6MTczNjgyNjMxNH0.i-0t9BXHjr-mDt-CT5Wd942XNyvQjmPOZ6IVgI2dxRQ
+}
+
+body:json {
+  {
+    "playerAttack": 2,
+    "enemyHealth": 8
+  }
+}
