@@ -1,57 +1,139 @@
 type Items = {
-  levelId: number,
-  name: string,
-  cost: number,
-  description: string,
-}[]
+  numPath: number;
+  name: string;
+  cost: number;
+  description: string;
+  properties: {
+    attack: number;
+    health: number;
+    mana: number;
+    maxhealth: number;
+    maxmana: number;
+  }
+}[];
 
 const items: Items = [
   {
-    levelId: 0,
+    numPath: 0,
     name: "Health potion",
     cost: 10,
-    description: "blood in vial"
+    description: "blood in vial",
+    properties: {
+      attack: 0,
+      health: 10,
+      mana: 0,
+      maxhealth: 0,
+      maxmana: 0,
+    }
   },
   {
-    levelId: 0,
+    numPath: 0,
     name: "Mana potion",
     cost: 10,
-    description: "Weird substance in vial"
+    description: "Weird substance in vial",
+    properties: {
+      attack: 0,
+      health: 0,
+      mana: 5,
+      maxhealth: 0,
+      maxmana: 0,
+    }
   },
   {
-    levelId: 1,
+    numPath: 1,
     name: "Pineapple Juice",
     cost: 3,
-    description: "yellow liquid in packet"
+    description: "yellow liquid in packet",
+    properties: {
+      attack: 0,
+      health: 0,
+      mana: 5,
+      maxhealth: 10,
+      maxmana: 5,
+    }
   },
   {
-    levelId: 1,
+    numPath: 1,
     name: "Beer",
     cost: 6,
-    description: "fizzy yellow liquid in can"
+    description: "fizzy yellow liquid in can",
+    properties: {
+      attack: 10,
+      health: -1,
+      mana: 10,
+      maxhealth: -1,
+      maxmana: 10,
+    }
   },
   {
-    levelId: 2,
+    numPath: 2,
     name: "Beef Steak",
     cost: 12,
-    description: "soft delicious looking thing"
+    description: "soft delicious looking thing",
+    properties: {
+      attack: 0, 
+      health: 10,
+      mana: 0,
+      maxhealth: 20,
+      maxmana: 0,
+    }
   },
   {
-    levelId: 2,
+    numPath: 2,
     name: "Natto",
     cost: 4,
-    description: "gooey beans"
+    description: "gooey beans",
+    properties: {
+      attack: 8,
+      health: 10,
+      mana: 0,
+      maxhealth: 10,
+      maxmana: 0,
+    }
   },
   {
-    levelId: 3,
+    numPath: 3,
     name: "King arthur's sword",
     cost: 10,
-    description: "A sword"
+    description: "A sword",
+    properties: {
+      attack: 30,
+      health: 0,
+      mana: 0,
+      maxhealth: 0,
+      maxmana: 0,
+    }
+  },
+  {
+    numPath: 3,
+    name: "Merlin's Staff",
+    cost: 20,
+    description: "A staff",
+    properties: {
+      attack: 50,
+      health: 0,
+      mana: 0,
+      maxhealth: 0,
+      maxmana: 0,
+    }
+  },
+  {
+    numPath: 3,
+    name: "AMD Ryzen 9k",
+    cost: 48,
+    description: "A chip",
+    properties: {
+      attack: 50,
+      health: 10,
+      mana: 10,
+      maxhealth: 10,
+      maxmana: 10,
+    }
   }
 ];
 
-const filterItemsData = (items: Items, level: number) => {
-  return items.filter((obj) => obj.levelId < level);
+const filterItemsData = (items: Items, pathTaken: number) => {
+  return items.filter((obj) => obj.numPath < pathTaken);
 };
 
 export {
