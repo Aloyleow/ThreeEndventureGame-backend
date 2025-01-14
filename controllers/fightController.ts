@@ -14,7 +14,7 @@ type PlayerRollData = z.infer<typeof playerRollSchema>
 const FightResultsSchema = z.object({
   enemyHealth: z.number(),
   damageDealt: z.number(),
-  special: z.string()
+  damageType: z.string()
 })
 
 type FightResultsRes = z.infer<typeof FightResultsSchema>
@@ -44,6 +44,7 @@ router.post("/playerroll", (req: Request<{}, {}, PlayerRollData>, res: Response<
 
 const enemyRollSchema = z.object({
   enemyAttack: z.number(),
+  enemyName: z.string(),
   playerHealth: z.number(),
 })
 
@@ -58,7 +59,7 @@ router.post("/enemyroll", (req: Request<{}, {}, EnemyRollData>, res: Response<Fi
       throw new Error(`Validation type failed ${validateError}`);
     }
 
-    const fightResultsRes = enemyFightRoll(req.body.enemyAttack, req.body.playerHealth)
+    const fightResultsRes = enemyFightRoll(req.body.enemyAttack,req.body.enemyName, req.body.playerHealth)
     
     res.status(201).json(fightResultsRes);
 

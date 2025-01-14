@@ -1,7 +1,7 @@
 type PlayerRollRes = {
   enemyHealth: number;
   damageDealt: number;
-  special: string;
+  damageType: string;
 }
 
 const playerSpecial = (rollArray: number[]) => {
@@ -23,6 +23,14 @@ const playerSpecial = (rollArray: number[]) => {
     return "miss"
   } 
   
+}
+
+const death = (calculateHealth: number) => {
+  if (calculateHealth < 0){
+    return 0;
+  } else {
+    return calculateHealth
+  }
 }
 
 const playerFightRoll = (playerAttack: number, enemyHealth: number) => {
@@ -50,14 +58,18 @@ const playerFightRoll = (playerAttack: number, enemyHealth: number) => {
     fightReport = "You missed!"
   } else {
     attackDamage = playerAttack
+    fightReport = `You did ${attackDamage} damage`
   };
 
-  const remainingHealth = enemyHealth - attackDamage;
+  const calculateHealth = enemyHealth - attackDamage;
+  const remainingHealth = death(calculateHealth)
+
+  
 
   const fightResultRes: PlayerRollRes = {
     enemyHealth: remainingHealth,
     damageDealt: attackDamage,
-    special: fightReport
+    damageType: fightReport
   }
 
   return fightResultRes
@@ -67,10 +79,10 @@ const playerFightRoll = (playerAttack: number, enemyHealth: number) => {
 type EnemyRollRes = {
   enemyHealth: number;
   damageDealt: number;
-  special: string;
+  damageType: string;
 }
 
-const enemyFightRoll = (enemyAttack: number, playerHealth: number) => {
+const enemyFightRoll = (enemyAttack: number, enemyName: string, playerHealth: number) => {
 
   let rollArray: number[] = [];
   let attackDamage: number = 0;
@@ -86,23 +98,25 @@ const enemyFightRoll = (enemyAttack: number, playerHealth: number) => {
 
   if (rollResult === "crit"){
     attackDamage = enemyAttack * 2
-    fightReport = "Critical attack! Double damage applied."
+    fightReport = `${enemyName} made a Critical attack! Double damage applied.`
   } else if (rollResult === "fatal"){
     attackDamage = enemyAttack * 3
-    fightReport = "FATAL attack! Triple damage applied."
+    fightReport = `${enemyName} made a FATAL attack! Triple damage applied.`
   } else if (rollResult === "miss") {
     attackDamage = enemyAttack * 0
-    fightReport = "Missed!"
+    fightReport = `${enemyName} missed!`
   } else {
     attackDamage = enemyAttack
+    fightReport = `${enemyName} did ${attackDamage} damage`
   };
 
-  const remainingHealth: number = playerHealth - attackDamage;
+  const calculateHealth = playerHealth - attackDamage;
+  const remainingHealth = death(calculateHealth)
 
   const fightResultRes: EnemyRollRes = {
     enemyHealth: remainingHealth,
     damageDealt: attackDamage,
-    special: fightReport
+    damageType: fightReport
   }
 
   return fightResultRes
