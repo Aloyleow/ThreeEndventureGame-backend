@@ -82,7 +82,7 @@ const gamePath: GamePath = [
     pathName: "Mountain",
     encounter: {
       enemy: true,
-      name: "Unknown",
+      name: "Anomaly",
       health: 150,
       attack: 30,
       gold: 0,

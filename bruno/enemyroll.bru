@@ -5,7 +5,7 @@ meta {
 }
 
 post {
-  url: http://localhost:8888/api/user/verified/playerroll
+  url: http://localhost:8888/api/user/verified/enemyroll
   body: json
   auth: bearer
 }
@@ -16,7 +16,7 @@ auth:bearer {
 
 body:json {
   {
-    "playerAttack": 2,
-    "enemyHealth": 8
+    "enemyAttack": 2,
+    "playerHealth": 8
   }
 }
