@@ -2,6 +2,7 @@ type PlayeritemsData = {
   item: {
     numPath: number;
     name: string;
+    role: string;
     cost: number;
     description: string;
     properties: {
@@ -18,7 +19,7 @@ type PlayeritemsData = {
   maxhealth: number;
   maxmana: number;
   health: number;
-  mana:number;
+  mana: number;
 };
 
 type PlayerNewData = {
@@ -27,7 +28,7 @@ type PlayerNewData = {
   maxhealth: number;
   maxmana: number;
   health: number;
-  mana:number;
+  mana: number;
 }
 
 
@@ -110,7 +111,7 @@ const items: Items = [
     cost: 12,
     description: "soft delicious looking thing",
     properties: {
-      attack: 0, 
+      attack: 0,
       health: 10,
       mana: 0,
       maxhealth: 20,
@@ -180,12 +181,12 @@ const filterItemsData = (items: Items, pathTaken: number) => {
 };
 
 const setInventory = (items: Items, itemNames: string[]): Items => {
-  
+
   let inventoryRes = [];
 
   for (let i = 0; i < itemNames.length; i++) {
     for (const obj of items) {
-      if (obj.name === itemNames[i]){
+      if (obj.name === itemNames[i]) {
         inventoryRes.push(obj);
       }
     }
@@ -193,11 +194,82 @@ const setInventory = (items: Items, itemNames: string[]): Items => {
 
   return inventoryRes;
 }
+//   const totalMH = player.maxhealth + item.properties.maxhealth;
+//   const totalMM = player.maxmana + item.properties.maxmana;
+//   const adjustedHealth = player.health + item.properties.health;
+//   const adjustedMana = player.maxmana + item.properties.maxmana;
+//   const adjustedAttack = player.attack + item.properties.attack;
 
-const setPlayer = (playerItemsData: PlayeritemsData)
+//   const filterItems = (prevItems: PlayerType) => {
+//     const inventoryItemIdx = prevItems.items.findIndex((playerItems) => playerItems === item.name)
+//     if (inventoryItemIdx !== -1){
+//       return [...prevItems.items.slice(0, inventoryItemIdx), ...prevItems.items.slice(inventoryItemIdx + 1)];
+//     }
+//     return prevItems.items;
+//   };
+
+//   const filterInventory = (inv: ItemsResponse) => {
+//     const inventoryItemIdx = inv.findIndex((invItem) => invItem.name === item.name)
+//     if (inventoryItemIdx !== -1){
+//       return [...inv.slice(0, inventoryItemIdx), ...inv.slice(inventoryItemIdx + 1)];
+//     }
+//     return inv;
+//   };
+
+//   setPlayer({
+//     ...player,
+//     health: adjustedHealth > totalMH ? player.maxhealth : adjustedHealth,
+//     maxhealth: totalMH,
+//     mana: adjustedMana > totalMM ? player.maxmana : adjustedMana,
+//     maxmana: totalMM,
+//     attack: adjustedAttack,
+//     items: filterItems(player)
+//   })
+//   setInventory(filterInventory(inventory))
+// }
+
+const setPlayer = (playerItemsData: PlayeritemsData): PlayerNewData => {
+
+  const totalMH = playerItemsData.maxhealth + playerItemsData.item.properties.maxhealth;
+  const totalMM = playerItemsData.maxmana + playerItemsData.item.properties.maxmana;
+  const adjustedHealth = playerItemsData.health + playerItemsData.item.properties.health;
+  const adjustedMana = playerItemsData.maxmana + playerItemsData.item.properties.maxmana;
+  const adjustedAttack = playerItemsData.attack + playerItemsData.item.properties.attack;
+
+  const filterItems = () => {
+    const inventoryItemIdx = playerItemsData.items.findIndex((usedItem) => usedItem === playerItemsData.item.name)
+    if (inventoryItemIdx !== -1) {
+      return [...playerItemsData.items.slice(0, inventoryItemIdx), ...playerItemsData.items.slice(inventoryItemIdx + 1)];
+    }
+    return playerItemsData.items;
+  };
+
+  if (playerItemsData.role === playerItemsData.item.role || playerItemsData.item.role === "any") {
+    const playerResData: PlayerNewData = {
+      items: filterItems(),
+      attack: adjustedAttack,
+      health: adjustedHealth > totalMH ? playerItemsData.maxhealth : adjustedHealth,
+      maxhealth: totalMH,
+      mana: adjustedMana > totalMM ? playerItemsData.maxmana : adjustedMana,
+      maxmana: totalMM,
+    }
+    return playerResData;
+  } else {
+    const playerResData: PlayerNewData = {
+      items: filterItems(),
+      attack: adjustedAttack / 2,
+      health: adjustedHealth > totalMH ? playerItemsData.maxhealth : adjustedHealth / 2 ,
+      maxhealth: totalMH,
+      mana: adjustedMana > totalMM ? playerItemsData.maxmana : adjustedMana / 2,
+      maxmana: totalMM,
+    }
+    return playerResData;
+  }
+}
 
 export {
   filterItemsData,
   items,
-  setInventory
+  setInventory,
+  setPlayer
 }
