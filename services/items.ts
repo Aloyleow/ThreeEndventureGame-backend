@@ -194,39 +194,6 @@ const setInventory = (items: Items, itemNames: string[]): Items => {
 
   return inventoryRes;
 }
-//   const totalMH = player.maxhealth + item.properties.maxhealth;
-//   const totalMM = player.maxmana + item.properties.maxmana;
-//   const adjustedHealth = player.health + item.properties.health;
-//   const adjustedMana = player.maxmana + item.properties.maxmana;
-//   const adjustedAttack = player.attack + item.properties.attack;
-
-//   const filterItems = (prevItems: PlayerType) => {
-//     const inventoryItemIdx = prevItems.items.findIndex((playerItems) => playerItems === item.name)
-//     if (inventoryItemIdx !== -1){
-//       return [...prevItems.items.slice(0, inventoryItemIdx), ...prevItems.items.slice(inventoryItemIdx + 1)];
-//     }
-//     return prevItems.items;
-//   };
-
-//   const filterInventory = (inv: ItemsResponse) => {
-//     const inventoryItemIdx = inv.findIndex((invItem) => invItem.name === item.name)
-//     if (inventoryItemIdx !== -1){
-//       return [...inv.slice(0, inventoryItemIdx), ...inv.slice(inventoryItemIdx + 1)];
-//     }
-//     return inv;
-//   };
-
-//   setPlayer({
-//     ...player,
-//     health: adjustedHealth > totalMH ? player.maxhealth : adjustedHealth,
-//     maxhealth: totalMH,
-//     mana: adjustedMana > totalMM ? player.maxmana : adjustedMana,
-//     maxmana: totalMM,
-//     attack: adjustedAttack,
-//     items: filterItems(player)
-//   })
-//   setInventory(filterInventory(inventory))
-// }
 
 const setPlayer = (playerItemsData: PlayeritemsData): PlayerNewData => {
 
