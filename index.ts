@@ -39,9 +39,8 @@ app.use("/api/user",
   forgetPassRouter
 );
 
-app.use(verifyJsonToken)
-
 app.use("/api/user/verified",
+  verifyJsonToken,
   changePassRouter,
   roleSelectedRouter,
   playerRouter,
