@@ -4,10 +4,9 @@ import { items, setInventory } from "../services/items";
 
 const router = express.Router();
 
-const itemsSchema = z.array(z.object({
+const itemSchema = z.object({
   numPath: z.number(),
   name: z.string(),
-  role: z.string(),
   cost: z.number(),
   description: z.string(),
   properties:z.object({
@@ -17,21 +16,28 @@ const itemsSchema = z.array(z.object({
     maxhealth: z.number(),
     maxmana: z.number(),
   })
-}));
-
-type Inventory = z.infer<typeof itemsSchema>;
-
-const playerItemsSchema = z.object({
-  items: z.array(z.string())
 });
 
-type PlayerItems = z.infer<typeof playerItemsSchema>;
+type Inventory = z.infer<typeof itemSchema>;
 
-router.post("/inventory", async (req: Request<{}, {}, PlayerItems>, res: Response<Inventory | { error: string } | []>) => {
+const playeritemsDataSchema = z.object({
+  item: itemSchema,
+  items: z.array(z.string()),
+  role: z.string(),
+  attack: z.number(),
+  maxhealth: z.number(),
+  maxmana: z.number(), 
+  health: z.number(),
+  mana: z.number(),
+});
+
+type PlayerItems = z.infer<typeof playeritemsDataSchema>;
+
+router.post("/useitems", async (req: Request<{}, {}, PlayerItems>, res: Response<Inventory | { error: string } | []>) => {
 
   try {
 
-    const validateReqBody = playerItemsSchema.safeParse(req.body);
+    const validateReqBody = playeritemsDataSchema.safeParse(req.body);
     if (!validateReqBody.success) {
       const validateError = validateReqBody.error.issues.map(item =>` ${item.path}: ${item.message}`);
       throw new Error(`Validation type failed ${validateError}`);

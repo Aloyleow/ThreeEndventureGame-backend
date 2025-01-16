@@ -8,6 +8,7 @@ const router = express.Router();
 const itemsSchema = z.array(z.object({
   numPath: z.number(),
   name: z.string(),
+  role: z.string(),
   cost: z.number(),
   description: z.string(),
   properties:z.object({
