@@ -15,7 +15,7 @@ import storeItemsRouter from "./controllers/storeItemsController"
 import gamePathRouter from "./controllers/pathController"
 import fightRouter from "./controllers/fightController"
 import roleSaveRouter from "./controllers/roleSaveController"
-
+import inventoryRouter from "./controllers/inventoryController"
 
 dotenv.config();
 
@@ -47,7 +47,8 @@ app.use("/api/user/verified",
   storeItemsRouter,
   gamePathRouter,
   fightRouter,
-  roleSaveRouter
+  roleSaveRouter,
+  inventoryRouter
 );
 
 app.listen(port, () =>{

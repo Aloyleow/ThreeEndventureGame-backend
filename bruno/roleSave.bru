@@ -4,14 +4,14 @@ meta {
   seq: 13
 }
 
-post {
-  url: http://localhost:8888/api/user/verified/roleselected
+put {
+  url: http://localhost:8888/api/user/verified/rolesave
   body: json
   auth: bearer
 }
 
 auth:bearer {
-  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2Vyc2lkIjoxLCJ1c2VybmFtZSI6IkFsb3kiLCJpYXQiOjE3MzY0MzY4NjEsImV4cCI6MTczNjQ0MDQ2MX0.qtEWr7asTgaYiYvjwl299fD1Db6vAuGBt8oxGgTUD6Y
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2Vyc2lkIjoyLCJ1c2VybmFtZSI6IkFsb3kiLCJpYXQiOjE3MzY4NDY5NTksImV4cCI6MTczNjg1MDU1OX0.brul7HblQVaZM97VqKJ8l1Qyz6kZlBIsN6y4vBBPffw
 }
 
 body:json {
@@ -19,14 +19,17 @@ body:json {
     "image": "test",
     "alt": "test",
     "role": "Human",
+    "pathtaken": ["slime"],
     "items": ["hello", "welp"],
     "skills": ["hello", "welp"],
     "health": 0,
+    "maxhealth": 0,
     "mana": 0,
+    "maxmana": 0,
     "gold": 0,
     "attack": 0, 
     "turns": 0, 
-    "active": true,
+    "active": false,
     "win": false
   }
 }

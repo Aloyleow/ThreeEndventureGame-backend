@@ -133,10 +133,26 @@ const items: Items = [
 ];
 
 const filterItemsData = (items: Items, pathTaken: number) => {
-  return items.filter((obj) => obj.numPath < pathTaken);
+  return items.filter((obj) => obj.numPath <= pathTaken);
 };
+
+const setInventory = (items: Items, itemNames: string[]) => {
+  
+  let inventoryRes = [];
+
+  for (let i = 0; i < itemNames.length; i++) {
+    for (const obj of items) {
+      if (obj.name === itemNames[i]){
+        inventoryRes.push(obj);
+      }
+    }
+  };
+
+  return inventoryRes;
+}
 
 export {
   filterItemsData,
-  items
+  items,
+  setInventory
 }
