@@ -5,17 +5,17 @@ meta {
 }
 
 post {
-  url: http://localhost:8888/api/user/verified/storeItems
+  url: http://localhost:8888/api/user/verified/inventory
   body: json
   auth: bearer
 }
 
 auth:bearer {
-  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2Vyc2lkIjoyLCJ1c2VybmFtZSI6IkFsb3kiLCJpYXQiOjE3MzY4NjE4ODUsImV4cCI6MTczNjg2NTQ4NX0.f_9nv_9mnJBr_8j9D2WPd-Rsct_Q6gd-0Phsv3sClvk
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2Vyc2lkIjoyLCJ1c2VybmFtZSI6IkFsb3kiLCJpYXQiOjE3MzY5OTgxMTYsImV4cCI6MTczNzAwMTcxNn0.hf4W9RBjA_6mB9CfqJfinMQosLBmxhJbyb3QMdp55qQ
 }
 
 body:json {
   {
-    "pathTaken": 2
+    "items": ["Health potion", "Health potion"]
   }
 }

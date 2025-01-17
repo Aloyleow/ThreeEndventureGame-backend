@@ -28,9 +28,8 @@ app.use(cors());
 
 app.use(express.json());
 
-app.get("/test", (req, res) => {
-  const test = [1,2,3]
- res.status(201).json(test)
+app.get("/api/test", (req, res) => {
+ res.status(201).json({checked: false})
 })
 
 app.use("/api/user", 
