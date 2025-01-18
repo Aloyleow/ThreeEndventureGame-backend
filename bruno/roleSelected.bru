@@ -11,7 +11,7 @@ post {
 }
 
 auth:bearer {
-  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2Vyc2lkIjoxLCJ1c2VybmFtZSI6IkFsb3kiLCJpYXQiOjE3MzY0MzY4NjEsImV4cCI6MTczNjQ0MDQ2MX0.qtEWr7asTgaYiYvjwl299fD1Db6vAuGBt8oxGgTUD6Y
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2Vyc2lkIjoyLCJ1c2VybmFtZSI6IkFsb3kiLCJpYXQiOjE3MzcxODIyMzYsImV4cCI6MTczNzE4NTgzNn0.Do-8Rc7cWgfE0v4LEVrm2AejopoYD6_U5d8KFSYXDhA
 }
 
 body:json {
@@ -21,12 +21,15 @@ body:json {
     "role": "Human",
     "items": ["hello", "welp"],
     "skills": ["hello", "welp"],
-    "health": 0,
+    "maxhealth": 100,
+    "maxmana": 100,
+    "pathtaken": ["slime"],
+    "health": 1,
     "mana": 0,
     "gold": 0,
     "attack": 0, 
-    "turns": 0, 
-    "active": true,
-    "win": false
+    "turns": 5, 
+    "active": false,
+    "win": true
   }
 }

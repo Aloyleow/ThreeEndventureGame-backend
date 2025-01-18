@@ -83,7 +83,7 @@ const items: Items = [
     cost: 3,
     description: "yellow liquid in packet",
     properties: {
-      attack: 0,
+      attack: 10,
       health: 0,
       mana: 5,
       maxhealth: 10,
@@ -98,10 +98,10 @@ const items: Items = [
     description: "fizzy yellow liquid in can",
     properties: {
       attack: 10,
-      health: -1,
-      mana: 10,
-      maxhealth: -1,
-      maxmana: 10,
+      health: -5,
+      mana: 15,
+      maxhealth: -5,
+      maxmana: 15,
     }
   },
   {
@@ -127,9 +127,9 @@ const items: Items = [
     properties: {
       attack: 8,
       health: 10,
-      mana: 0,
+      mana: 10,
       maxhealth: 10,
-      maxmana: 0,
+      maxmana: 10,
     }
   },
   {
