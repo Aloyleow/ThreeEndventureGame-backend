@@ -17,6 +17,7 @@ import fightRouter from "./controllers/fightController"
 import roleSaveRouter from "./controllers/roleSaveController"
 import inventoryRouter from "./controllers/inventoryController"
 import useItemsRouter from "./controllers/useItemController"
+import highScoreRouter from "./controllers/highscoreController"
 
 dotenv.config();
 
@@ -48,7 +49,8 @@ app.use("/api/user/verified",
   fightRouter,
   roleSaveRouter,
   inventoryRouter,
-  useItemsRouter
+  useItemsRouter,
+  highScoreRouter
 );
 
 app.listen(port, () =>{
