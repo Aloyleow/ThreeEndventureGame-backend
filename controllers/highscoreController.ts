@@ -20,6 +20,8 @@ router.get("/highscores", async (req: Request, res: Response<HighScoreData | { c
   username, role, turns
   FROM playerroles
   WHERE active = false AND win = true
+  ORDER By turns ASC
+  LIMIT 10
   `
   
   try {
