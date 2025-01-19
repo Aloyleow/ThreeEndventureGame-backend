@@ -3,21 +3,21 @@ Start playing here! - [Three Endventure Game](https://threeendventuregame.vercel
 
 ## Technologies used
 
-- Frontend
--- React (TypeScript)
--- React router
--- Vanilla CSS
+- **Frontend**
+  - React (TypeScript)
+  - React Router
+  - Vanilla CSS
 
-- Backend
--- Bun to compile (TypeScript) to js
--- Express
--- JWT auth
--- Zod validation
--- PostgreSQL
+- **Backend**
+  - Bun to compile (TypeScript) to JavaScript
+  - Express
+  - JWT Authentication
+  - Zod Validation
+  - PostgreSQL
 
-- Deployment
--- Vercel (Frontend) 
--- Render (Backend) 
+- **Deployment**
+  - Vercel (Frontend)
+  - Render (Backend)
 
 ### Description of game
 
