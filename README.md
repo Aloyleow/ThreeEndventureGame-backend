@@ -1,5 +1,5 @@
 # Three Endventure Game (V2.0.0)
-Start playing here! - [Three Endventure Game](https://threeendventuregame.vercel.app/)
+Start playing here! - [3 Endventure Game](https://threeendventuregame.vercel.app/)
 
 ## Technologies used
 
@@ -35,7 +35,7 @@ Start playing here! - [Three Endventure Game](https://threeendventuregame.vercel
 - RNG Combat
 - Leaderboard
 
-### Future state of Three Endventure
+### Future state of 3 Endventure
 
  - Implement rouge-like Skills option 
  - Google auth
