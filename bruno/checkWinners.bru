@@ -1,0 +1,30 @@
+meta {
+  name: checkWinners
+  type: http
+  seq: 15
+}
+
+get {
+  url: http://localhost:8888/api/user/verified/highscores
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2Vyc2lkIjoyLCJ1c2VybmFtZSI6IkFsb3kiLCJpYXQiOjE3MzcxODIyMzYsImV4cCI6MTczNzE4NTgzNn0.Do-8Rc7cWgfE0v4LEVrm2AejopoYD6_U5d8KFSYXDhA
+}
+
+body:json {
+  {
+    "image": "test",
+    "alt": "test",
+    "role": "Human",
+    "health": 0,
+    "mana": 0,
+    "gold": 0,
+    "attack": 0, 
+    "turns": 0, 
+    "active": false,
+    "win": false
+  }
+}
